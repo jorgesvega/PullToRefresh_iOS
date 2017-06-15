@@ -42,6 +42,7 @@ class ViewController: UIViewController {
         }
         
         refreshControl.addTarget(self, action: #selector(ViewController.actionWhenPull), for: .valueChanged)
+        refreshControl.attributedTitle = NSAttributedString(string: "Updating numbers")
     }
     
     fileprivate func generateArray(elements: Int) {
@@ -60,6 +61,18 @@ class ViewController: UIViewController {
         generateArray(elements: numberOfElements)
         tableView.reloadData()
         self.refreshControl.endRefreshing()
+    }
+    
+    /**
+     This function return a different color for text of even numbers
+    */
+    fileprivate func numberColor(number: Int) -> UIColor {
+        if number % 2 == 0 {
+            return UIColor.green
+        }
+        else {
+            return UIColor.red
+        }
     }
     
     //MARK: - Operative methods
@@ -83,6 +96,8 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: CustomTableViewCell.identifier, for: indexPath) as! CustomTableViewCell
         
         cell.labelCell.text = String(numbersCollection[indexPath.row])
+        
+        cell.labelCell.textColor = numberColor(number: numbersCollection[indexPath.row])
         
         return cell
     }
